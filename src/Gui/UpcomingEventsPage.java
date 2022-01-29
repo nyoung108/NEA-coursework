@@ -9,7 +9,7 @@ import libraryFunctions.*;
 import objects.*;
 public class UpcomingEventsPage extends javax.swing.JFrame {
     private String eventName; 
-    /** Creates new form UpcomingEventsPage */
+    
     public UpcomingEventsPage() {
         initComponents();
     }

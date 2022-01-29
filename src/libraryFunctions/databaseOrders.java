@@ -134,4 +134,57 @@ public class databaseOrders {
         }
         return null;
     }
+    public static boolean isAdmin(String email, String password) {
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingSystemNea", "Noah", "password");
+            Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = "Select adminID from admintable where exists (select userID from usertable where password= '" + password + "' and email= '" + "email');";
+            ResultSet rs = databaseManagement.executeQuery(sql);
+            boolean admin = rs.getBoolean(sql);
+            rs.close();
+
+            con.close();
+            return admin;
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+
+        return false;
+    }
+
+    public static void deleteEvent(String eventID) {
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingSystemNea", "Noah", "password");
+            Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = "Delete from eventtable and musictable and sporttable where eventID = '" + eventID + "';";
+            ResultSet rs = databaseManagement.executeQuery(sql);
+            rs.close();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        
+    }
+
+    public static String getEventID(String name, String date) {
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/StadiumBookingSystemNea", "Noah", "password");
+            Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String sql = "Select eventID from eventtable where name = '" + name + "' and date = '" + date + "';";
+            ResultSet rs = databaseManagement.executeQuery(sql);
+            String eventID = rs.getNString(sql);
+            rs.close();
+            con.close();
+            return eventID;
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        return null;
+    }
 }

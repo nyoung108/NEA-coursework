@@ -1,20 +1,22 @@
 package libraryFunctions;
 
-import java.lang.Object;
+import java.util.regex.Pattern;
 
 public class formatChecks {
 
         public static boolean validEmail(String email) {
 // need to use method to check for high level domain
-//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
+//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
         
-        boolean valid = false;
-        if (email.length() <= 64) {
-            if (email.contains("@")) {
-                valid = true;
+         boolean valid = true;
+        if (email.length() > 64) {
+            
+                valid = false;
                 return valid;
-            }
+            
         }
+       String regularPattern = ".+@.+\\....+";
+       valid = Pattern.compile(regularPattern).matcher(email).matches();
         return valid;
     }
 

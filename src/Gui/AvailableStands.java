@@ -184,12 +184,14 @@ private String standName;
     }//GEN-LAST:event_standSixActionPerformed
 
     private void standSevenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standSevenActionPerformed
-        if (ticketType!="child"||ticketType!="disabled"){
-            boolean valid = false;
-            standSeven.setVisible(valid);
-        }
+        standName = "7";
+        
     }//GEN-LAST:event_standSevenActionPerformed
-
+private void toSeats(){
+        availableSeats seats = new availableSeats();
+        seats.getStandDetails(ticketType, eventName, standName);
+        seats.setVisible(true);
+}
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -224,7 +226,9 @@ private String standName;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+            //    if (ticketType!="child"||ticketType!="disabled"){
+           // boolean valid = false;
+           // standSeven.setVisible(valid);
         
                 new AvailableStands().setVisible(true);
             }

@@ -17,10 +17,10 @@ public class linkedList {
     public String getNextNode(){
         String currentNode = getFirstNode();
         while(currentNode!=null){
-            currentNode = currentNode.get
-        }
+    //        currentNode = currentNode.get
+        } return null;
     }
-    public void addToFront(eventObject){
+  //  public void addToFront(eventObject){
         
-    }
+    //}
 }

@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 public class TicketDetails extends javax.swing.JFrame {
 
     private String ticketSelected;
-    private String eventname;
+    private String eventName;
 
     public TicketDetails() {
         initComponents();
@@ -137,12 +137,12 @@ public class TicketDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getEventName(String eventName) {
-        eventname = eventName;
+        
     }
 
     public void toAvailableStands() {
         AvailableStands availableStands = new AvailableStands();
-        availableStands.getTicketDetails(ticketSelected, eventname);
+        availableStands.getTicketDetails(ticketSelected, eventName);
         availableStands.setVisible(true);
         
         this.dispose();

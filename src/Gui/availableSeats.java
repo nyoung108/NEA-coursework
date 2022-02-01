@@ -7,6 +7,8 @@ package Gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import libraryFunctions.*;
+import objects.*;
 
 /**
  *
@@ -18,6 +20,7 @@ public class availableSeats extends javax.swing.JFrame {
     private String eventName;
     private String standName;
     private ArrayList<Integer> seatsSelected;
+    ArrayList<Integer> takenSeats;
     public availableSeats() {
         initComponents();
     }
@@ -583,572 +586,690 @@ public class availableSeats extends javax.swing.JFrame {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
-
+    private void getTakenSeats(){
+        ArrayList<String> seatIDs = new ArrayList<>();
+        databaseOrders.getTakenSeatID(eventName, seatIDs);
+        
+        
+        
+        for (int i = 0; i <= seatIDs.size(); i++) {
+            int row = databaseOrders.getSeatRow(standName, eventName);
+            int column = databaseOrders.getSeatColumn(standName, eventName);
+            int seat = row * column;
+            takenSeats.add(seat);
+        }
+    }
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        
-        
+        boolean valid = validSeats();
+        if (valid) {
+            for (int i = 0; i < seatsSelected.size(); i++) {
+                int rowInt = i/8;
+                String row = Integer.toString(seatsSelected.get(i)/8);
+                String column = Integer.toString(seatsSelected.get(i)%8);
+                String seatID = String.join(standName, row, column);
+                double price = ticketPriceGenerator.ticketPrice(rowInt, standName, eventName);
+                Objects.seatDetailsObject seat = new seatDetailsObject(seatID, row, column, standName, price);
+            }
+        }
+
     }//GEN-LAST:event_confirmButtonActionPerformed
+    private boolean validSeats() {
+        getTakenSeats();
+        sortSeats();
+        boolean valid = true;
+        valid = isSeatTaken(takenSeats, valid);
+
+        for (int i = 0; i < seatsSelected.size(); i++) {
+
+            if (i % 8 == 1) {
+                valid = checkRight(takenSeats, i, valid);
+            } else if (i % 8 == 0) {
+                valid = checkLeft(takenSeats, i, valid);
+            } else if (i % 8 == 2) {
+                valid = checkRight(takenSeats, i, valid);
+                boolean check = false;
+                for (int j = 0; j < takenSeats.size(); j++) {
+                    if (takenSeats.get(j) == i - 1) {
+                        check = true;
+                        break;
+                    }
+                }
+                if (check == false) {
+                    valid = false;
+                }
+            } else if (i % 8 == 7) {
+                valid = checkLeft(takenSeats, i, valid);
+                boolean check = false;
+                for (int j = 0; j < takenSeats.size(); j++) {
+                    if (takenSeats.get(j) == i + 1) {
+                        check = true;
+                        break;
+                    }
+                }
+                if (check == false) {
+                    valid = false;
+                }
+            } else {
+                valid = checkLeft(takenSeats, i, valid);
+                valid = checkRight(takenSeats, i, valid);
+            }
+        }
+        return valid;
+    }
+
+    public void sortSeats() {
+
+    }
+
+    public boolean isSeatTaken(ArrayList<Integer> takenSeats, boolean valid) {
+        for (int i = 0; i < seatsSelected.size(); i++) {
+            for (int j = 0; j < takenSeats.size(); j++) {
+                if (seatsSelected.get(i) == takenSeats.get(j)) {
+                    valid = false;
+                    return valid;
+                }
+            }
+        }
+        return valid;
+    }
+
+    private boolean checkRight(ArrayList<Integer> takenSeats, int i, boolean valid) {
+
+        boolean seatOne = false;
+        boolean seatTwo = true;
+        for (int j = 0; j < takenSeats.size(); j++) {
+            if (takenSeats.get(j) == i + 1) {
+                seatOne = true;
+            }
+            if (takenSeats.get(j) == i + 2) {
+                seatTwo = true;
+            }
+        }
+        if (seatOne == false && seatTwo == true) {
+            valid = false;
+        }
+        return valid;
+    }
+
+    private boolean checkLeft(ArrayList<Integer> takenSeats, int i, boolean valid) {
+
+        boolean seatOne = false;
+        boolean seatTwo = true;
+        for (int j = 0; j < takenSeats.size(); j++) {
+            if (takenSeats.get(j) == i - 1) {
+                seatOne = true;
+            }
+            if (takenSeats.get(j) == i - 2) {
+                seatTwo = true;
+            }
+        }
+        if (seatOne == false && seatTwo == true) {
+            valid = false;
+        }
+        return valid;
+    }
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jButton1.getForeground()==Color.RED){
+        if (jButton1.getForeground() == Color.RED) {
             jButton1.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(1);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton1.setForeground(Color.RED);
-        seatsSelected.add(1);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton1.setForeground(Color.RED);
+                seatsSelected.add(1);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(jButton2.getForeground()==Color.RED){
+        if (jButton2.getForeground() == Color.RED) {
             jButton2.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(2);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton2.setForeground(Color.RED);
-        seatsSelected.add(2);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton2.setForeground(Color.RED);
+                seatsSelected.add(2);
             }
-        }   
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if(jButton4.getForeground()==Color.RED){
+        if (jButton4.getForeground() == Color.RED) {
             jButton4.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(3);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton4.setForeground(Color.RED);
-        seatsSelected.add(3);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton4.setForeground(Color.RED);
+                seatsSelected.add(3);
             }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(jButton5.getForeground()==Color.RED){
+        if (jButton5.getForeground() == Color.RED) {
             jButton5.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(4);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton5.setForeground(Color.RED);
-        seatsSelected.add(4);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton5.setForeground(Color.RED);
+                seatsSelected.add(4);
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        if(jButton6.getForeground()==Color.RED){
+        if (jButton6.getForeground() == Color.RED) {
             jButton6.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(5);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton6.setForeground(Color.RED);
-        seatsSelected.add(5);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton6.setForeground(Color.RED);
+                seatsSelected.add(5);
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if(jButton7.getForeground()==Color.RED){
+        if (jButton7.getForeground() == Color.RED) {
             jButton7.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(6);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton7.setForeground(Color.RED);
-        seatsSelected.add(6);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton7.setForeground(Color.RED);
+                seatsSelected.add(6);
             }
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if(jButton8.getForeground()==Color.RED){
+        if (jButton8.getForeground() == Color.RED) {
             jButton8.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(7);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton8.setForeground(Color.RED);
-        seatsSelected.add(7);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton8.setForeground(Color.RED);
+                seatsSelected.add(7);
             }
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if(jButton9.getForeground()==Color.RED){
+        if (jButton9.getForeground() == Color.RED) {
             jButton9.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(8);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton9.setForeground(Color.RED);
-        seatsSelected.add(8);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton9.setForeground(Color.RED);
+                seatsSelected.add(8);
             }
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        if(jButton10.getForeground()==Color.RED){
+        if (jButton10.getForeground() == Color.RED) {
             jButton10.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(9);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton10.setForeground(Color.RED);
-        seatsSelected.add(9);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton10.setForeground(Color.RED);
+                seatsSelected.add(9);
             }
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if(jButton11.getForeground()==Color.RED){
+        if (jButton11.getForeground() == Color.RED) {
             jButton11.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(10);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton11.setForeground(Color.RED);
-        seatsSelected.add(10);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton11.setForeground(Color.RED);
+                seatsSelected.add(10);
             }
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        if(jButton12.getForeground()==Color.RED){
+        if (jButton12.getForeground() == Color.RED) {
             jButton12.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(11);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton12.setForeground(Color.RED);
-        seatsSelected.add(11);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton12.setForeground(Color.RED);
+                seatsSelected.add(11);
             }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        if(jButton13.getForeground()==Color.RED){
+        if (jButton13.getForeground() == Color.RED) {
             jButton13.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(12);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton13.setForeground(Color.RED);
-        seatsSelected.add(12);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton13.setForeground(Color.RED);
+                seatsSelected.add(12);
             }
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        if(jButton14.getForeground()==Color.RED){
+        if (jButton14.getForeground() == Color.RED) {
             jButton14.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(13);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton14.setForeground(Color.RED);
-        seatsSelected.add(13);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton14.setForeground(Color.RED);
+                seatsSelected.add(13);
             }
         }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        if(jButton15.getForeground()==Color.RED){
+        if (jButton15.getForeground() == Color.RED) {
             jButton15.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(14);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton15.setForeground(Color.RED);
-        seatsSelected.add(14);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton15.setForeground(Color.RED);
+                seatsSelected.add(14);
             }
         }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        if(jButton16.getForeground()==Color.RED){
+        if (jButton16.getForeground() == Color.RED) {
             jButton16.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(15);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton16.setForeground(Color.RED);
-        seatsSelected.add(15);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton16.setForeground(Color.RED);
+                seatsSelected.add(15);
             }
         }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        if(jButton17.getForeground()==Color.RED){
+        if (jButton17.getForeground() == Color.RED) {
             jButton17.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(16);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton17.setForeground(Color.RED);
-        seatsSelected.add(16);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton17.setForeground(Color.RED);
+                seatsSelected.add(16);
             }
         }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        if(jButton19.getForeground()==Color.RED){
+        if (jButton19.getForeground() == Color.RED) {
             jButton19.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(17);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton19.setForeground(Color.RED);
-        seatsSelected.add(17);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton19.setForeground(Color.RED);
+                seatsSelected.add(17);
             }
         }
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        if(jButton20.getForeground()==Color.RED){
+        if (jButton20.getForeground() == Color.RED) {
             jButton20.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(18);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton20.setForeground(Color.RED);
-        seatsSelected.add(18);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton20.setForeground(Color.RED);
+                seatsSelected.add(18);
             }
         }
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        if(jButton21.getForeground()==Color.RED){
+        if (jButton21.getForeground() == Color.RED) {
             jButton21.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(19);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton21.setForeground(Color.RED);
-        seatsSelected.add(19);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton21.setForeground(Color.RED);
+                seatsSelected.add(19);
             }
         }
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        if(jButton22.getForeground()==Color.RED){
+        if (jButton22.getForeground() == Color.RED) {
             jButton22.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(20);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton22.setForeground(Color.RED);
-        seatsSelected.add(20);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton22.setForeground(Color.RED);
+                seatsSelected.add(20);
             }
         }
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        if(jButton23.getForeground()==Color.RED){
+        if (jButton23.getForeground() == Color.RED) {
             jButton23.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(21);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton23.setForeground(Color.RED);
-        seatsSelected.add(21);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton23.setForeground(Color.RED);
+                seatsSelected.add(21);
             }
         }
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        if(jButton24.getForeground()==Color.RED){
+        if (jButton24.getForeground() == Color.RED) {
             jButton24.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(22);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton24.setForeground(Color.RED);
-        seatsSelected.add(22);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton24.setForeground(Color.RED);
+                seatsSelected.add(22);
             }
         }
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-       if(jButton25.getForeground()==Color.RED){
+        if (jButton25.getForeground() == Color.RED) {
             jButton25.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(23);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton25.setForeground(Color.RED);
-        seatsSelected.add(23);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton25.setForeground(Color.RED);
+                seatsSelected.add(23);
             }
         }
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        if(jButton18.getForeground()==Color.RED){
+        if (jButton18.getForeground() == Color.RED) {
             jButton18.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(24);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton18.setForeground(Color.RED);
-        seatsSelected.add(24);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton18.setForeground(Color.RED);
+                seatsSelected.add(24);
             }
         }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
-        if(jButton27.getForeground()==Color.RED){
+        if (jButton27.getForeground() == Color.RED) {
             jButton27.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(25);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton27.setForeground(Color.RED);
-        seatsSelected.add(25);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton27.setForeground(Color.RED);
+                seatsSelected.add(25);
             }
         }
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
-        if(jButton28.getForeground()==Color.RED){
+        if (jButton28.getForeground() == Color.RED) {
             jButton28.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(26);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton28.setForeground(Color.RED);
-        seatsSelected.add(26);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton28.setForeground(Color.RED);
+                seatsSelected.add(26);
             }
         }
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
-        if(jButton29.getForeground()==Color.RED){
+        if (jButton29.getForeground() == Color.RED) {
             jButton29.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(27);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton29.setForeground(Color.RED);
-        seatsSelected.add(27);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton29.setForeground(Color.RED);
+                seatsSelected.add(27);
             }
         }
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
-        if(jButton30.getForeground()==Color.RED){
+        if (jButton30.getForeground() == Color.RED) {
             jButton30.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(28);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton30.setForeground(Color.RED);
-        seatsSelected.add(28);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton30.setForeground(Color.RED);
+                seatsSelected.add(28);
             }
         }
     }//GEN-LAST:event_jButton30ActionPerformed
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
-        if(jButton31.getForeground()==Color.RED){
+        if (jButton31.getForeground() == Color.RED) {
             jButton31.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(29);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton31.setForeground(Color.RED);
-        seatsSelected.add(29);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton31.setForeground(Color.RED);
+                seatsSelected.add(29);
             }
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
-        if(jButton32.getForeground()==Color.RED){
+        if (jButton32.getForeground() == Color.RED) {
             jButton32.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(30);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton32.setForeground(Color.RED);
-        seatsSelected.add(30);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton32.setForeground(Color.RED);
+                seatsSelected.add(30);
             }
         }
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        if(jButton33.getForeground()==Color.RED){
+        if (jButton33.getForeground() == Color.RED) {
             jButton33.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(31);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton33.setForeground(Color.RED);
-        seatsSelected.add(31);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton33.setForeground(Color.RED);
+                seatsSelected.add(31);
             }
         }
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-        if(jButton26.getForeground()==Color.RED){
+        if (jButton26.getForeground() == Color.RED) {
             jButton26.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(32);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton26.setForeground(Color.RED);
-        seatsSelected.add(32);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton26.setForeground(Color.RED);
+                seatsSelected.add(32);
             }
         }
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
-        if(jButton35.getForeground()==Color.RED){
+        if (jButton35.getForeground() == Color.RED) {
             jButton35.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(33);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton35.setForeground(Color.RED);
-        seatsSelected.add(33);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton35.setForeground(Color.RED);
+                seatsSelected.add(33);
             }
         }
     }//GEN-LAST:event_jButton35ActionPerformed
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
-        if(jButton36.getForeground()==Color.RED){
+        if (jButton36.getForeground() == Color.RED) {
             jButton36.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(34);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton36.setForeground(Color.RED);
-        seatsSelected.add(34);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton36.setForeground(Color.RED);
+                seatsSelected.add(34);
             }
         }
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
-        if(jButton37.getForeground()==Color.RED){
+        if (jButton37.getForeground() == Color.RED) {
             jButton37.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(35);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton37.setForeground(Color.RED);
-        seatsSelected.add(35);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton37.setForeground(Color.RED);
+                seatsSelected.add(35);
             }
         }
     }//GEN-LAST:event_jButton37ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
-      if(jButton38.getForeground()==Color.RED){
+        if (jButton38.getForeground() == Color.RED) {
             jButton38.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(36);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton38.setForeground(Color.RED);
-        seatsSelected.add(36);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton38.setForeground(Color.RED);
+                seatsSelected.add(36);
             }
         }
     }//GEN-LAST:event_jButton38ActionPerformed
 
     private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
-        if(jButton39.getForeground()==Color.RED){
+        if (jButton39.getForeground() == Color.RED) {
             jButton39.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(37);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton39.setForeground(Color.RED);
-        seatsSelected.add(37);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton39.setForeground(Color.RED);
+                seatsSelected.add(37);
             }
         }
     }//GEN-LAST:event_jButton39ActionPerformed
 
     private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
-        if(jButton40.getForeground()==Color.RED){
+        if (jButton40.getForeground() == Color.RED) {
             jButton40.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(38);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton40.setForeground(Color.RED);
-        seatsSelected.add(38);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton40.setForeground(Color.RED);
+                seatsSelected.add(38);
             }
         }
     }//GEN-LAST:event_jButton40ActionPerformed
 
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-        if(jButton41.getForeground()==Color.RED){
+        if (jButton41.getForeground() == Color.RED) {
             jButton41.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(39);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton41.setForeground(Color.RED);
-        seatsSelected.add(39);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton41.setForeground(Color.RED);
+                seatsSelected.add(39);
             }
         }
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        if(jButton34.getForeground()==Color.RED){
+        if (jButton34.getForeground() == Color.RED) {
             jButton34.setForeground(Color.BLACK);
             for (int i = 0; i < seatsSelected.size(); i++) {
                 seatsSelected.remove(40);
             }
-        } else{
-            if(seatsSelected.size()<6){
-        jButton34.setForeground(Color.RED);
-        seatsSelected.add(40);
+        } else {
+            if (seatsSelected.size() < 6) {
+                jButton34.setForeground(Color.RED);
+                seatsSelected.add(40);
             }
         }
     }//GEN-LAST:event_jButton34ActionPerformed
-    
+
     public void getStandDetails(String ticketType, String eventName, String standName) {
 
     }

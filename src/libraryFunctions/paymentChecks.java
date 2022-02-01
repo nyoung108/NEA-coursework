@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import Gui.*;
+import java.util.regex.Pattern;
 
 public class paymentChecks {
 
@@ -11,32 +12,17 @@ public class paymentChecks {
 
     public static boolean cardNumberCheck(String cardHolder, String cardNumber, int CVC, LocalDate expiryDate) {
         boolean valid = true;
-        valid = cardNumberCorrect(valid);
-        valid = CVC(valid);
-        valid = cardHolderName(valid);
-        valid = expiryDateCheck(valid);
+        valid = cardNumberCorrect(valid, cardNumber);
+        valid = CVC(valid, CVC);
+        valid = cardHolderName(valid, cardHolder);
+        valid = expiryDateCheck(valid, expiryDate);
         return valid;
     }
 
-    public static boolean cardNumberCorrect(boolean valid) {
-        String dataToAscii = "fafgshfgahaaddsd";
-        int[] ascii = ascii(dataToAscii);
-        char[] digits = new char[ascii.length];
-
-        for (int i = 0; i < ascii.length; i++) {
-            int asciiValue = ascii[i];
-            if (asciiValue >= 47 || asciiValue <= 58) {
-
-            } else {
-                if (digits.length < 16) {
-                    digits[i] = (char) ascii[i];
-                }
-            }
-        }
-        if (digits.length != 16) {
-            valid = false;
-            return valid;
-        }
+    public static boolean cardNumberCorrect(boolean valid, String cardNumber) {
+        
+        String regularPattern = "(\\d{4,4}\\s*){4,4}";
+       valid = Pattern.compile(regularPattern).matcher(cardNumber).matches();
         return valid;
     }
 
@@ -51,42 +37,30 @@ public class paymentChecks {
         return ascii;
     }
 
-    public static boolean CVC(boolean valid) {
-        int cvc = 345;
-        if (cvc > 999 || cvc < 100) {
+    public static boolean CVC(boolean valid, int CVC) {
+        
+        if (CVC > 999 || CVC < 100) {
             valid = false;
             return valid;
         }
         return valid;
     }
 
-    public static boolean cardHolderName(boolean valid) {
-        String dataToAscii = "fafgshfgahaaddsd";
-        dataToAscii = dataToAscii.toLowerCase();
-        int[] ascii = ascii(dataToAscii);
-        int numberOfSpaces = 0;
-        int numberOfHyphens = 0;
-        for (int i = 0; i < ascii.length; i++) {
-            if (ascii[i] <= 96 || ascii[i] <= 123) {
-                if (ascii[i] == 32) {
-                    numberOfSpaces = numberOfSpaces + 1;
-                } else if (ascii[i] == 45) {
-                    numberOfHyphens = numberOfHyphens + 1;
-                } else {
-                    valid = false;
-                }
-            }
-        }
-        if (numberOfSpaces > 1 || numberOfHyphens > 1) {
+    public static boolean cardHolderName(boolean valid, String name) {
+        String regularPattern = "^[a-zA-Z]+\\s\\w+-?[a-zA-Z]+$";
+        boolean correctForm = true;
+        correctForm = Pattern.compile(regularPattern).matcher(name).matches();
+        if(correctForm == false)
+        {
             valid = false;
         }
         return valid;
     }
 
-    public static boolean expiryDateCheck(boolean valid) {
-        LocalDate expiryDate = LocalDate.of(2017, Month.MARCH, 4);
+    public static boolean expiryDateCheck(boolean valid, LocalDate expiryDate) {
+        
         DateTimeFormatter expiryDateFormat = DateTimeFormatter.ofPattern("MM-yy");
-        // expiryDate = LocalDate.parse(expiryDate, expiryDateFormat);
+         //LocalDate expiryDateFormatted = LocalDate.parse(expiryDate, expiryDateFormat);
         LocalDate current = LocalDate.now();
         if (expiryDate.isBefore(current)) {
             valid = false;

@@ -23,12 +23,12 @@ public class addUpcomingEvent extends javax.swing.JFrame {
     public void createEventObject(){
         String name = new String(nameEntered.getText());
         String dateStr = new String(dateEntered.getText());
-        dateFormat format = new dateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        Date date = format.parse(dateStr);
+      //  dateFormat format = new dateFormat("dd-MM-yyyy", Locale.ENGLISH);
+     //   Date date = format.parse(dateStr);
         String type = new String(typeEntered.getText());
         String priceStr = new String(priceEntered.getText());
         float price = Float.parseFloat(priceStr);
-        Time time = new String(timeEntered.getText());
+       // Time time = new String(timeEntered.getText());
     }
 
     /**

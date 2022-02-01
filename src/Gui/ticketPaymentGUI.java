@@ -155,9 +155,11 @@ public class ticketPaymentGUI extends javax.swing.JFrame {
         boolean validCardDetails = paymentChecks.cardNumberCheck(cardHolder, cardnumber, CVV, expiryDate);
         if(validCardDetails){
         String bookingID = generateId.uniqueId();
+        String ticketID = generateId.uniqueId();
+        String userID = databaseOrders.returnUserID();
         LocalDate dateBooked = LocalDate.now();
-        
-        databaseOrders.addBooking(bookingID, dateBooked);
+        Objects.bookingDetailsObject booking = new bookingDetailsObject(bookingID, userID, ticketID, dateBooked); 
+        databaseOrders.addBooking(booking);
         HomePage home = new HomePage();
             home.setVisible(true);
             this.dispose();

@@ -154,10 +154,12 @@ private String standName;
     }// </editor-fold>//GEN-END:initComponents
 
     private void standOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standOneActionPerformed
-        if (ticketType.equals("vip")){
+        if (ticketType.equals("vip")||ticketType.equals("child")){
             boolean valid = false;
             standOne.setVisible(valid);
         }
+        standName = "1";
+        toSeats();
     }//GEN-LAST:event_standOneActionPerformed
 
     private void standThreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standThreeActionPerformed
@@ -165,27 +167,52 @@ private String standName;
             boolean valid = false;
             standThree.setVisible(valid);
         }
+        standName = "3";
+        toSeats();
     }//GEN-LAST:event_standThreeActionPerformed
 
     private void standTwoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standTwoActionPerformed
-        // TODO add your handling code here:
+        if (ticketType.equals("vip")||ticketType.equals("child")){
+            boolean valid = false;
+            standOne.setVisible(valid);
+        }
+        standName = "2";
+        toSeats();
     }//GEN-LAST:event_standTwoActionPerformed
 
     private void standFourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standFourActionPerformed
-        // TODO add your handling code here:
+        if (ticketType.equals("vip")||ticketType.equals("child")||ticketType.equals("disabled")){
+            boolean valid = false;
+            standOne.setVisible(valid);
+        }
+        standName = "4";
+        toSeats();
     }//GEN-LAST:event_standFourActionPerformed
 
     private void standFiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standFiveActionPerformed
-        // TODO add your handling code here:
+        if (ticketType.equals("vip")||ticketType.equals("disabled")){
+            boolean valid = false;
+            standOne.setVisible(valid);
+        }
+        standName = "5";
     }//GEN-LAST:event_standFiveActionPerformed
 
     private void standSixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standSixActionPerformed
-        // TODO add your handling code here:
+        if (ticketType.equals("vip")){
+            boolean valid = false;
+            standOne.setVisible(valid);
+        }
+        standName = "6";
+        toSeats();
     }//GEN-LAST:event_standSixActionPerformed
 
     private void standSevenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standSevenActionPerformed
+        if (ticketType.equals("vip")||ticketType.equals("child")||ticketType.equals("disabled")){
+            boolean valid = false;
+            standOne.setVisible(valid);
+        }
         standName = "7";
-        
+        toSeats();
     }//GEN-LAST:event_standSevenActionPerformed
 private void toSeats(){
         availableSeats seats = new availableSeats();
@@ -226,9 +253,7 @@ private void toSeats(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            //    if (ticketType!="child"||ticketType!="disabled"){
-           // boolean valid = false;
-           // standSeven.setVisible(valid);
+             
         
                 new AvailableStands().setVisible(true);
             }

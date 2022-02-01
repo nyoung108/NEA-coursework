@@ -112,6 +112,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void upcomingEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upcomingEventButtonActionPerformed
         UpcomingEventsPage upcomingEvents = new UpcomingEventsPage();
+       
             upcomingEvents.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_upcomingEventButtonActionPerformed

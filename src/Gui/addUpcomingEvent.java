@@ -5,31 +5,67 @@
  */
 package Gui;
 
-import java.util.Date;
-import java.util.Locale;
+import Objects.eventDetailsObject;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import libraryFunctions.*;
 
 /**
  *
  * @author PC
  */
 public class addUpcomingEvent extends javax.swing.JFrame {
-
-    /**
-     * Creates new form addUpcomingEvent
-     */
+private Objects.eventDetailsObject newEvent;
     public addUpcomingEvent() {
         initComponents();
     }
     public void createEventObject(){
         String name = new String(nameEntered.getText());
         String dateStr = new String(dateEntered.getText());
-      //  dateFormat format = new dateFormat("dd-MM-yyyy", Locale.ENGLISH);
-     //   Date date = format.parse(dateStr);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+       
+        String timeStr = new String(timeEntered.getText());
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH/mm");
+        LocalTime time = LocalTime.parse(timeStr, timeFormatter);
+     
         String type = new String(typeEntered.getText());
         String priceStr = new String(priceEntered.getText());
-        float price = Float.parseFloat(priceStr);
-       // Time time = new String(timeEntered.getText());
+        double price = Float.parseFloat(priceStr);
+        String eventID = generateId.uniqueId();
+       
+       newEvent = new eventDetailsObject(eventID, name, type, date, time, price);
+       
     }
+   
+    public String returnEventID(){
+        String eventID = newEvent.getEventID();
+        return eventID;
+    }
+    public String returnName(){
+        String name = newEvent.getEventName();
+        return name;
+    }
+    public String returnType(){
+        String type = newEvent.getEventType();
+        return type;
+    }
+    public LocalDate returnDate(){
+        LocalDate date = newEvent.getDate();
+        return date;
+    }
+   
+    public LocalTime returnTime(){
+        LocalTime time = newEvent.getTime();
+        return time;
+    }
+   
+    public double returnPrice(){
+        double price = newEvent.getEventPrice();
+        return price;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +105,11 @@ public class addUpcomingEvent extends javax.swing.JFrame {
         jLabel5.setText("Price");
 
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         musicButton.setText("Music");
         musicButton.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +205,11 @@ public class addUpcomingEvent extends javax.swing.JFrame {
     private void sportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sportButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sportButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.dispose();
+        databaseOrders.returnStack().goBack();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments

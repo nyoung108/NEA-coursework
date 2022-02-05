@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class upcomingEventsSort {
     public static ArrayList mergedList(ArrayList<String> unsortedEvents, String sortRequested) {
-        ArrayList<String> sortedList = new ArrayList<String>();
+        ArrayList<String> sortedList = new ArrayList<>();
         splitList(unsortedEvents, sortedList, sortRequested);
         return null;
     }

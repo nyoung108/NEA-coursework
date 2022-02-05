@@ -5,6 +5,8 @@
  */
 package Gui;
 
+import libraryFunctions.databaseOrders;
+
 /**
  *
  * @author PC
@@ -220,7 +222,8 @@ private void toSeats(){
         seats.setVisible(true);
 }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

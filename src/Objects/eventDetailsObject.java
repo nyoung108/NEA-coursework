@@ -1,21 +1,32 @@
 
 package Objects;
 
-import org.apache.derby.client.am.DateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class eventDetailsObject {
     String eventID;
     String eventName;
     String eventType;
-    DateTime dateTime;
-    float eventPrice;
-
-    public eventDetailsObject(String eventID, String eventName, String eventType, DateTime dateTime, float eventPrice) {
+    LocalDate date;
+    LocalTime time;
+    double eventPrice;
+    eventDetailsObject newEvent;
+    public eventDetailsObject(String eventID, String eventName, String eventType, LocalDate date, LocalTime time, double eventPrice) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.eventType = eventType;
-        this.dateTime = dateTime;
+        this.date = date;
+        this.time = time;
         this.eventPrice = eventPrice;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public String getEventID() {
@@ -42,20 +53,23 @@ public class eventDetailsObject {
         this.eventType = eventType;
     }
 
-    public DateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public float getEventPrice() {
+    public double getEventPrice() {
         return eventPrice;
     }
 
-    public void setEventPrice(float eventPrice) {
+    public void setEventPrice(double eventPrice) {
         this.eventPrice = eventPrice;
     }
-    
+   
+    public void getEventObject(eventDetailsObject newEvent) {
+       
+    }
 }

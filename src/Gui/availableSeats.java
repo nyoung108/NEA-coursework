@@ -8,7 +8,7 @@ package Gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import libraryFunctions.*;
-import objects.*;
+import Objects.*;
 
 /**
  *
@@ -584,7 +584,8 @@ public class availableSeats extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_backButtonActionPerformed
     private void getTakenSeats(){
         ArrayList<String> seatIDs = new ArrayList<>();
@@ -603,12 +604,14 @@ public class availableSeats extends javax.swing.JFrame {
         boolean valid = validSeats();
         if (valid) {
             for (int i = 0; i < seatsSelected.size(); i++) {
-                int rowInt = i/8;
-                String row = Integer.toString(seatsSelected.get(i)/8);
-                String column = Integer.toString(seatsSelected.get(i)%8);
-                String seatID = String.join(standName, row, column);
-                double price = ticketPriceGenerator.ticketPrice(rowInt, standName, eventName);
-                Objects.seatDetailsObject seat = new seatDetailsObject(seatID, row, column, standName, price);
+                
+                int row = seatsSelected.get(i)/8;
+                int column = seatsSelected.get(i)%8;
+                String rowStr = Integer.toString(row);
+                String columnStr = Integer.toString(column);
+                String seatID = String.join(standName, rowStr, columnStr);
+                double price = ticketPriceGenerator.ticketPrice(row, standName, eventName);
+                //Objects.seatDetailsObject seat = new seatDetailsObject(seatID, row, column, standName, price);
             }
         }
 

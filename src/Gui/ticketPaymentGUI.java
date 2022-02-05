@@ -44,6 +44,11 @@ public class ticketPaymentGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Card Holder Name");
 
@@ -171,6 +176,11 @@ public class ticketPaymentGUI extends javax.swing.JFrame {
     private void cardHolderNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardHolderNameActionPerformed
         
     }//GEN-LAST:event_cardHolderNameActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        this.dispose();
+        databaseOrders.returnStack().goBack();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments

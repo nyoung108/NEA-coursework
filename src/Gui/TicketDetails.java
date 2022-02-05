@@ -6,6 +6,7 @@
 package Gui;
 
 import javax.swing.JLabel;
+import libraryFunctions.databaseOrders;
 
 /**
  *
@@ -134,7 +135,8 @@ public class TicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_childTicketActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getEventName(String eventName) {
         

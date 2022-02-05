@@ -137,6 +137,7 @@ public class LoginPage extends javax.swing.JFrame {
             HomePage home = new HomePage();
             home.setVisible(true);
             this.dispose();
+           
         } else{
             System.out.println("Details incorrect. Try again");
         }
@@ -177,6 +178,7 @@ public class LoginPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoginPage().setVisible(true);
+                
             }
         });
     }

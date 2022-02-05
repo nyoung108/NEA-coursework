@@ -5,94 +5,111 @@
  */
 package libraryFunctions;
 
+import Gui.*;
+
 public class stack {
+
+    private int stackSize;
     private String[] stack;
-    private int maxSize;
-    private int current;
-    
+    private int top;
 
-    public String[] getStack() {
-        return stack;
+    public void createStack() {
+        stackSize = 50;
+        stack = new String[stackSize];
+        top = -1;
     }
 
-    public void setStack(String[] stack) {
-        this.stack = stack;
-    }
-
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    public int getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(int current) {
-        this.current = current;
-    }
-
-    
-
-    public stack(String[] stack, int maxSize, int current) {
-        this.stack = stack;
-        this.maxSize = maxSize;
-        this.current = current;
-       
-    }
-    
-    public static boolean isStackFull(stack Stack){
+    public boolean isStackFull() {
         boolean full = false;
-        if (Stack.getCurrent() == Stack.getStack().length-1){
+        if (top == stackSize - 1) {
             full = true;
         }
         return full;
     }
-    
-    public static boolean isStackEmpty(stack Stack){
+
+    public boolean isStackEmpty() {
         boolean empty = false;
-        if (Stack.getCurrent() == -1){
+        if (top == -1) {
             empty = true;
         }
         return empty;
     }
-    
-    public static void addElement(stack Stack, String nextPage){
-        
-        boolean full = isStackFull(Stack);
-        if(full){
+
+    public void addElement(String current) {
+
+        boolean full = isStackFull();
+        if (full) {
+
+        } else {
+            top = top + 1;
+            stack[top] = current;
+
             
-        } else{
-            
-            Stack.setCurrent(Stack.getCurrent()+1);
-            
-            //Stack.getStack().
         }
     }
-    
-    public static void removeElement(stack Stack){
-        
-        boolean empty = isStackEmpty(Stack);
-        if(empty){          
-        } else{                     
-            //Stack.setStack([Stack.getCurrent()] = null);
-            Stack.setCurrent(Stack.getCurrent()-1);            
+
+    public void removeElement() {
+
+        boolean empty = isStackEmpty();
+        if (empty) {
+        } else {
+            top = top -1;
         }
-        
+
     }
-    public static String getTopElement(stack Stack){
-        
-        boolean empty = isStackEmpty(Stack);
-        String previousPage = null;
-        if(empty){
+
+    public String getTopElement() {
+
+        boolean empty = isStackEmpty();
+        String topPage = null;
+        if (empty) {
             return null;
+        } else {
+            topPage = stack[top];
         }
-        else{
-            previousPage = Stack.getStack()[Stack.getCurrent()];
-        }
-        return previousPage;
+        return topPage;
     }
+    
+    public void goBack(){
+        
+        removeElement();
+        String previous = getTopElement();
+        switch(previous){
+            case "homePage": 
+                HomePage home = new HomePage();
+                home.setVisible(true);
+              case "availableStands":
+
+                AvailableStands stand = new AvailableStands();
+                stand.setVisible(true);
+                break;
+            case "ticketDetails":
+
+                TicketDetails ticketDetails = new TicketDetails();
+                ticketDetails.setVisible(true);
+                break;
+            case "upcomingEvent":
+
+                UpcomingEventsPage upcomingEvent = new UpcomingEventsPage();
+                upcomingEvent.setVisible(true);
+                break;
+            case "adminHome":
+
+                adminHome adminHome = new adminHome();
+                adminHome.setVisible(true);
+                break;
+            case "availableSeats":
+
+                availableSeats availableSeats = new availableSeats();
+                availableSeats.setVisible(true);
+                break;
+            case "addEvent":
+
+                addUpcomingEvent addEvent = new addUpcomingEvent();
+                addEvent.setVisible(true);
+                break;
+           
+        }  
+        }
+    
 }

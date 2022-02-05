@@ -1,7 +1,9 @@
 
 package Objects;
 
-import org.apache.derby.client.am.DateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 public class sportObject extends eventDetailsObject {
     String sportID;
@@ -10,8 +12,8 @@ public class sportObject extends eventDetailsObject {
     String awayTeam;
     
 
-    public sportObject(String sportID, String sportType, String homeTeam, String awayTeam, String eventID, String eventName, String eventType, DateTime dateTime, float eventPrice) {
-        super(eventID, eventName, eventType, dateTime, eventPrice);
+  public sportObject(String sportID, String sportType, String homeTeam, String awayTeam, String eventID, String eventName, String eventType, LocalDate date, LocalTime time, double eventPrice) {
+        super(eventID, eventName, eventType, date, time, eventPrice);
         this.sportID = sportID;
         this.sportType = sportType;
         this.homeTeam = homeTeam;

@@ -6,9 +6,9 @@ public class seatDetailsObject {
     int row;
     int column;
     String Stand;
-    float price;
+    double price;
 
-    public seatDetailsObject(String seatID, int row, int column, String Stand, float price) {
+    public seatDetailsObject(String seatID, int row, int column, String Stand, double price) {
         this.seatID = seatID;
         this.row = row;
         this.column = column;
@@ -48,11 +48,11 @@ public class seatDetailsObject {
         this.Stand = Stand;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import libraryFunctions.databaseOrders;
+import libraryFunctions.*;
 
 public class UpcomingEventsPage extends javax.swing.JFrame {
     
@@ -51,6 +51,9 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         eventsList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
+        sortAZ = new javax.swing.JButton();
+        sortZA = new javax.swing.JButton();
+        sortDate = new javax.swing.JButton();
 
         searchBar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,6 +83,27 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(eventsList);
 
+        sortAZ.setText("Sort A-Z");
+        sortAZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortAZActionPerformed(evt);
+            }
+        });
+
+        sortZA.setText("Sort Z-A");
+        sortZA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortZAActionPerformed(evt);
+            }
+        });
+
+        sortDate.setText("Sort by date");
+        sortDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortDateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,30 +111,41 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(backButton)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(125, 125, 125)
-                                .addComponent(jLabel2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addComponent(searchButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(search)
-                                .addGap(25, 25, 25)))
-                        .addComponent(searchRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(searchButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(search)
+                                        .addGap(25, 25, 25))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(backButton)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(125, 125, 125)
+                                        .addComponent(jLabel2)))
+                                .addGap(62, 62, 62)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(77, 77, 77)
+                                .addComponent(searchRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sortAZ)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sortDate))
+                            .addComponent(sortZA))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -119,9 +154,14 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(backButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(backButton)
+                            .addComponent(sortAZ)
+                            .addComponent(sortDate))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sortZA)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -149,7 +189,9 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
     }//GEN-LAST:event_searchBarActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+        
+        this.dispose();
+        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -157,6 +199,26 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         
         toTicketPage(eventName);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void sortDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortDateActionPerformed
+         
+    }//GEN-LAST:event_sortDateActionPerformed
+
+    private void sortAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortAZActionPerformed
+        
+        String sortRequested = "az";
+        upcomingEvents = databaseOrders.getUpcomingEvents(upcomingEvents);
+        upcomingEvents = upcomingEventsSort.mergedList(upcomingEvents, sortRequested);
+        updateList();
+        
+    }//GEN-LAST:event_sortAZActionPerformed
+
+    private void sortZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortZAActionPerformed
+        String sortRequested = "za";
+        upcomingEvents = databaseOrders.getUpcomingEvents(upcomingEvents);
+        upcomingEvents = upcomingEventsSort.mergedList(upcomingEvents, sortRequested);
+        updateList();
+    }//GEN-LAST:event_sortZAActionPerformed
     private void toTicketPage(String eventName) {
         
         TicketDetails ticketDetails = new TicketDetails();
@@ -166,7 +228,7 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
     }
 
     private void updateList() {
-        upcomingEvents = databaseOrders.getUpcomingEvents(upcomingEvents);
+        
         for (int i = 0; i < upcomingEvents.size(); i++) {
             model.addElement(upcomingEvents.get(i));            
             eventsList.setModel(model);
@@ -203,8 +265,10 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                updateList();
-                new UpcomingEventsPage().setVisible(true);
+                UpcomingEventsPage update = new UpcomingEventsPage();
+                update.updateList();
+                update.setVisible(true);
+               update.repaint();
             }
         });
     }
@@ -221,6 +285,9 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchRequest;
+    private javax.swing.JButton sortAZ;
+    private javax.swing.JButton sortDate;
+    private javax.swing.JButton sortZA;
     // End of variables declaration//GEN-END:variables
 
 }

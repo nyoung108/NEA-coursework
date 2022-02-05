@@ -1,7 +1,8 @@
 
 package Objects;
 
-import org.apache.derby.client.am.DateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class musicObject extends eventDetailsObject{
     String musicID;
@@ -10,13 +11,13 @@ public class musicObject extends eventDetailsObject{
     String warmupAct;
   
 
-    public musicObject(String musicID, String musicType, String performerName, String warmupAct, String eventID, String eventName, String eventType, DateTime dateTime, float eventPrice) {
-        super(eventID, eventName, eventType, dateTime, eventPrice);
+    public musicObject(String musicID, String musicType, String performerName, String warmupAct, String eventID, String eventName, String eventType, LocalDate date, LocalTime time, double eventPrice) {
+        super(eventID, eventName, eventType, date, time, eventPrice);
         this.musicID = musicID;
         this.musicType = musicType;
         this.performerName = performerName;
         this.warmupAct = warmupAct;
-    
+   
     }
 
     

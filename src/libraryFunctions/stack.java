@@ -44,7 +44,6 @@ public class stack {
             top = top + 1;
             stack[top] = current;
 
-            
         }
     }
 
@@ -53,7 +52,7 @@ public class stack {
         boolean empty = isStackEmpty();
         if (empty) {
         } else {
-            top = top -1;
+            top = top - 1;
         }
 
     }
@@ -69,16 +68,16 @@ public class stack {
         }
         return topPage;
     }
-    
-    public void goBack(){
-        
+
+    public void goBack() {
+
         removeElement();
         String previous = getTopElement();
-        switch(previous){
-            case "homePage": 
+        switch (previous) {
+            case "homePage":
                 HomePage home = new HomePage();
                 home.setVisible(true);
-              case "availableStands":
+            case "availableStands":
 
                 AvailableStands stand = new AvailableStands();
                 stand.setVisible(true);
@@ -108,8 +107,8 @@ public class stack {
                 addUpcomingEvent addEvent = new addUpcomingEvent();
                 addEvent.setVisible(true);
                 break;
-           
-        }  
+
         }
-    
+    }
+
 }

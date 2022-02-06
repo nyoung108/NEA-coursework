@@ -28,16 +28,26 @@ public class adminHome extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addEvent = new javax.swing.JButton();
+        deleteEvent = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Log out");
 
-        jButton2.setText("Add upcoming event");
+        addEvent.setText("Add upcoming event");
+        addEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEventActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Delete upcoming event");
+        deleteEvent.setText("Delete upcoming event");
+        deleteEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteEventActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,9 +60,9 @@ public class adminHome extends javax.swing.JFrame {
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addComponent(jButton3)
+                        .addComponent(deleteEvent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(addEvent)))
                 .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -62,13 +72,25 @@ public class adminHome extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(addEvent)
+                    .addComponent(deleteEvent))
                 .addContainerGap(199, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void deleteEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEventActionPerformed
+        deleteEvent delete = new deleteEvent();
+        delete.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_deleteEventActionPerformed
+
+    private void addEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventActionPerformed
+        addUpcomingEvent add = new addUpcomingEvent();
+        add.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_addEventActionPerformed
 
     /**
      * @param args the command line arguments
@@ -106,8 +128,8 @@ public class adminHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addEvent;
+    private javax.swing.JButton deleteEvent;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }

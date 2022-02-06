@@ -196,8 +196,8 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String eventName = eventsList.getSelectedValue();
-        
-        toTicketPage(eventName);
+        databaseOrders.tempEvent(eventName);
+        toTicketPage();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sortDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortDateActionPerformed
@@ -206,23 +206,25 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
 
     private void sortAZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortAZActionPerformed
         
+        sortAZ();
+        
+    }//GEN-LAST:event_sortAZActionPerformed
+    public void sortAZ(){
         String sortRequested = "az";
         upcomingEvents = databaseOrders.getUpcomingEvents(upcomingEvents);
         upcomingEvents = upcomingEventsSort.mergedList(upcomingEvents, sortRequested);
         updateList();
-        
-    }//GEN-LAST:event_sortAZActionPerformed
-
+    }
     private void sortZAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortZAActionPerformed
         String sortRequested = "za";
         upcomingEvents = databaseOrders.getUpcomingEvents(upcomingEvents);
         upcomingEvents = upcomingEventsSort.mergedList(upcomingEvents, sortRequested);
         updateList();
     }//GEN-LAST:event_sortZAActionPerformed
-    private void toTicketPage(String eventName) {
+    private void toTicketPage() {
         
         TicketDetails ticketDetails = new TicketDetails();
-        ticketDetails.getEventName(eventName);
+        
         ticketDetails.setVisible(true);
         this.dispose();
     }
@@ -266,7 +268,7 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 UpcomingEventsPage update = new UpcomingEventsPage();
-                update.updateList();
+                update.sortAZ();
                 update.setVisible(true);
                update.repaint();
             }

@@ -6,9 +6,9 @@ public class ticketDetailsObject {
     private String seatID;
     private String eventID;
     private String type;
-    private float price;
+    private double price;
 
-    public ticketDetailsObject(String ticketID, String seatID, String eventID, String type, float price) {
+    public ticketDetailsObject(String ticketID, String seatID, String eventID, String type, double price) {
         this.ticketID = ticketID;
         this.seatID = seatID;
         this.eventID = eventID;
@@ -48,11 +48,11 @@ public class ticketDetailsObject {
         this.type = type;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

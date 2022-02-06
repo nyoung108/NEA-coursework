@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package Gui;
+
 import libraryFunctions.*;
+
 public class LoginPage extends javax.swing.JFrame {
 
     /**
@@ -30,6 +32,7 @@ public class LoginPage extends javax.swing.JFrame {
         enteredPassword = new javax.swing.JTextField();
         LogInButton = new javax.swing.JButton();
         SignUpInsteadButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +71,13 @@ public class LoginPage extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setText("x");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,13 +104,20 @@ public class LoginPage extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 188, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(133, 133, 133))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(exitButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addContainerGap()
+                .addComponent(exitButton)
+                .addGap(23, 23, 23)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -129,23 +146,35 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_enteredPasswordActionPerformed
 
     private void LogInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogInButtonActionPerformed
-         String email = new String(enteredEmail.getText());
+        String email = new String(enteredEmail.getText());
         String password = new String(enteredPassword.getText());
+        boolean admin = databaseOrders.isAdmin(email, password);
+        if (admin) {
+            adminHome home = new adminHome();
+            home.setVisible(true);
+            this.dispose();
+        }
         boolean validUser = databaseOrders.userLogIn(email, password);
-        if(validUser){
+        if (validUser) {
             System.out.println("Welcome");
             HomePage home = new HomePage();
             home.setVisible(true);
             this.dispose();
-           
-        } else{
+
+        } else {
             System.out.println("Details incorrect. Try again");
         }
     }//GEN-LAST:event_LogInButtonActionPerformed
 
     private void SignUpInsteadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpInsteadButtonActionPerformed
-        
+            SignUpPage signUp = new SignUpPage();
+            signUp.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_SignUpInsteadButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,7 +207,7 @@ public class LoginPage extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoginPage().setVisible(true);
-                
+
             }
         });
     }
@@ -188,6 +217,7 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JButton SignUpInsteadButton;
     private javax.swing.JTextField enteredEmail;
     private javax.swing.JTextField enteredPassword;
+    private javax.swing.JButton exitButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

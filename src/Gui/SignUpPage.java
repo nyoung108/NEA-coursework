@@ -41,6 +41,7 @@ public class SignUpPage extends javax.swing.JFrame {
         firstNameEntered = new javax.swing.JTextField();
         lastNameEntered = new javax.swing.JTextField();
         dateOfBirthEntered = new javax.swing.JTextField();
+        exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +56,11 @@ public class SignUpPage extends javax.swing.JFrame {
         jLabel5.setText("Already have an account");
 
         logInButton.setText("Log in");
+        logInButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logInButtonActionPerformed(evt);
+            }
+        });
 
         signUpButton.setText("Sign up");
         signUpButton.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +84,13 @@ public class SignUpPage extends javax.swing.JFrame {
         dateOfBirthEntered.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dateOfBirthEnteredActionPerformed(evt);
+            }
+        });
+
+        exitButton.setText("x");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
             }
         });
 
@@ -124,14 +137,18 @@ public class SignUpPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(168, 168, 168)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(exitButton))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -145,7 +162,7 @@ public class SignUpPage extends javax.swing.JFrame {
                         .addComponent(passwordEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(passwordCheckEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(firstNameEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,7 +205,9 @@ public class SignUpPage extends javax.swing.JFrame {
         String dateOfBirth = dateOfBirthEntered.getText();
         if(addUser==true){
             String userID = generateId.uniqueId();
-            databaseOrders.addUser(userID, email, password, firstName, lastName, dateOfBirth);
+            password = hash.hashedPassword(password);
+            Objects.userDetailsObject user = new Objects.userDetailsObject(userID, email, password, firstName, lastName, dateOfBirth);
+            databaseOrders.addUser(user);
             System.out.println("Welcome");
             HomePage home = new HomePage();
             home.setVisible(true);
@@ -204,6 +223,16 @@ public class SignUpPage extends javax.swing.JFrame {
     private void dateOfBirthEnteredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateOfBirthEnteredActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateOfBirthEnteredActionPerformed
+
+    private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
+            LoginPage login = new LoginPage();
+            login.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_logInButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,6 +272,7 @@ public class SignUpPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dateOfBirthEntered;
     private javax.swing.JTextField emailEntered;
+    private javax.swing.JButton exitButton;
     private javax.swing.JTextField firstNameEntered;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

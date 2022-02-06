@@ -19,27 +19,11 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
     }
-    public void updateList(){
-        ArrayList<String> ticketID = new ArrayList<>();
-                ArrayList<String> tickets = new ArrayList<>();
-                ticketID = databaseOrders.getTicketID();
-                for (int i = 0; i <= ticketID.size(); i++) {
-                    String eventID = databaseOrders.getEvent(ticketID.get(i));
-                    String seatID = databaseOrders.getSeat(ticketID.get(i));
-                    String eventName = databaseOrders.getEventName(eventID);
-                    String stand = databaseOrders.getStandName(seatID);
-                    int row = databaseOrders.getSeatRow(seatID);
-                    int column = databaseOrders.getSeatColumn(seatID);
-                    Objects.displayTickets ticket = new displayTickets(eventName, stand, row, column);
-                    String ticketStr = ticket.toString();
-                    tickets.add(ticketStr);
-                }
-                DefaultListModel model = new DefaultListModel();
-                for (int i = 0; i <= tickets.size(); i++) {
-                    model.addElement(tickets.get(i));
-                    ticketList.setModel(model);
-                }
+
+    public void updateList() {
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,6 +41,9 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ticketList = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        eventName = new javax.swing.JTextField();
+        confirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +58,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(ticketList);
 
+        jLabel1.setText("What event would you like to see your tickets for?");
+
+        confirm.setText("Confirm");
+        confirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,18 +77,26 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addGap(96, 96, 96)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(231, 231, 231)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(numberOfTickets)))
+                        .addComponent(numberOfTickets))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(405, 405, 405)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(eventName)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,20 +106,24 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numberOfTickets)
                     .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
                         .addGap(4, 4, 4)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(eventName)
+                            .addComponent(jLabel4)
+                            .addComponent(confirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -126,10 +134,40 @@ public class NewJFrame extends javax.swing.JFrame {
         databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
+        ArrayList<String> ticketID = new ArrayList<>();
+        ArrayList<String> tickets = new ArrayList<>();
+        int ticketCount = databaseOrders.getNumberOfTickets();
+        String eventRequested = new String(eventName.getText());
+        numberOfTickets.setText("Your tickets (" + ticketCount + "):");
+        ticketID = databaseOrders.getTicketID();
+        String eventID = databaseOrders.getEventID(eventRequested);
+        ArrayList<String> ticketIDSelected = new ArrayList<>();
+        for (int i = 0; i <= ticketID.size(); i++) {
+            ticketIDSelected.add(databaseOrders.getTicketIDChosen(ticketID.get(i), eventID));
+        }
+        for (int i = 0; i <= ticketIDSelected.size(); i++) {
+            
+            String seatID = databaseOrders.getSeat(ticketIDSelected.get(i));
+            String eventName = databaseOrders.getEventName(eventID);
+            String stand = databaseOrders.getStandName(seatID);
+            int row = databaseOrders.getSeatRow(seatID);
+            int column = databaseOrders.getSeatColumn(seatID);
+            Objects.displayTickets ticket = new displayTickets(eventName, stand, row, column);
+            String ticketStr = ticket.toString();
+            tickets.add(ticketStr);
+        }
+        DefaultListModel model = new DefaultListModel();
+        for (int i = 0; i <= tickets.size(); i++) {
+            model.addElement(tickets.get(i));
+            ticketList.setModel(model);
+        }
+    }//GEN-LAST:event_confirmActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public  void main(String args[]) {
+    public void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -156,16 +194,18 @@ public class NewJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewJFrame printTickets = new NewJFrame();
-                 printTickets.updateList();
+
                 new NewJFrame().setVisible(true);
-               
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton confirm;
+    private javax.swing.JTextField eventName;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

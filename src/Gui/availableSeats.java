@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import libraryFunctions.*;
 import Objects.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -20,7 +22,8 @@ public class availableSeats extends javax.swing.JFrame {
     private String eventName;
     private String standName;
     private ArrayList<Integer> seatsSelected;
-    ArrayList<Integer> takenSeats;
+    private ArrayList<Integer> takenSeats;
+
     public availableSeats() {
         initComponents();
     }
@@ -587,12 +590,10 @@ public class availableSeats extends javax.swing.JFrame {
         this.dispose();
         databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_backButtonActionPerformed
-    private void getTakenSeats(){
+    private void getTakenSeats() {
         ArrayList<String> seatIDs = new ArrayList<>();
         databaseOrders.getTakenSeatID(eventName, seatIDs);
-        
-        
-        
+
         for (int i = 0; i <= seatIDs.size(); i++) {
             int row = databaseOrders.getSeatRow(standName, eventName);
             int column = databaseOrders.getSeatColumn(standName, eventName);
@@ -602,17 +603,34 @@ public class availableSeats extends javax.swing.JFrame {
     }
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         boolean valid = validSeats();
+        eventName = databaseOrders.returnEventName();
+        standName = databaseOrders.returnStand();
+        ticketType = databaseOrders.returnTicketType();
         if (valid) {
-            for (int i = 0; i < seatsSelected.size(); i++) {
-                
-                int row = seatsSelected.get(i)/8;
-                int column = seatsSelected.get(i)%8;
+            for (int i = 0; i <= seatsSelected.size(); i++) {
+
+                int row = seatsSelected.get(i) / 8;
+                int column = seatsSelected.get(i) % 8;
+                String eventID = databaseOrders.getEventID(eventName);
                 String rowStr = Integer.toString(row);
                 String columnStr = Integer.toString(column);
                 String seatID = String.join(standName, rowStr, columnStr);
                 double price = ticketPriceGenerator.ticketPrice(row, standName, eventName);
-                //Objects.seatDetailsObject seat = new seatDetailsObject(seatID, row, column, standName, price);
+                String ticketID = generateId.uniqueId();
+                String bookingID = generateId.uniqueId();
+                String userID = databaseOrders.returnUserID();
+                Objects.ticketDetailsObject ticket = new ticketDetailsObject(ticketID, eventID, seatID, ticketType, price);
+                databaseOrders.addTicket(ticket);
+                LocalDate dateBooked = LocalDate.now();
+
+                Objects.bookingDetailsObject booking = new bookingDetailsObject(bookingID, userID, ticketID, dateBooked);
+                databaseOrders.addBooking(booking);
+
             }
+            ticketPaymentGUI pay = new ticketPaymentGUI();
+
+            pay.setVisible(true);
+            this.dispose();
         }
 
     }//GEN-LAST:event_confirmButtonActionPerformed
@@ -620,6 +638,9 @@ public class availableSeats extends javax.swing.JFrame {
         getTakenSeats();
         sortSeats();
         boolean valid = true;
+        if (seatsSelected.size() > 6) {
+            valid = false;
+        }
         valid = isSeatTaken(takenSeats, valid);
 
         for (int i = 0; i < seatsSelected.size(); i++) {
@@ -1273,10 +1294,6 @@ public class availableSeats extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton34ActionPerformed
 
-    public void getStandDetails(String ticketType, String eventName, String standName) {
-
-    }
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1304,6 +1321,7 @@ public class availableSeats extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 new availableSeats().setVisible(true);
             }
         });

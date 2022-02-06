@@ -115,4 +115,40 @@ public class upcomingEventsSort {
         }
         return sortedList;
     }
+    public static ArrayList mergedDate(ArrayList<String> sortedList, ArrayList<String> leftList, ArrayList<String> rightList) {
+        int leftPointer = 0;
+        int rightPointer = 0;
+        int sortedPointer = 0;
+
+        while (leftPointer < leftList.size() && rightPointer < rightList.size()) {
+
+            if (databaseOrders.getDate(leftList.get(leftPointer)).isEqual(databaseOrders.getDate(rightList.get(rightPointer)))) {
+                sortedList.add(leftList.get(leftPointer));
+                leftPointer = leftPointer + 1;
+                sortedList.add(rightList.get(rightPointer));
+                rightPointer = rightPointer + 1;
+            } else {
+                
+                if (databaseOrders.getDate(leftList.get(leftPointer)).isBefore(databaseOrders.getDate(rightList.get(rightPointer)))) {
+                    sortedList.add(leftList.get(leftPointer));
+                    leftPointer = leftPointer + 1;
+                } else {
+                    sortedList.add(rightList.get(rightPointer));
+                    rightPointer = rightPointer + 1;
+                }
+                sortedPointer = sortedPointer + 1;
+            }
+        }
+        while (leftPointer < leftList.size()) {
+            sortedList.add(leftList.get(leftPointer));
+            leftPointer = leftPointer + 1;
+            sortedPointer = sortedPointer + 1;
+        }
+        while (rightPointer < rightList.size()) {
+            sortedList.add(rightList.get(rightPointer));
+            rightPointer = rightPointer + 1;
+            sortedPointer = sortedPointer + 1;
+        }
+        return sortedList;
+    }
 }

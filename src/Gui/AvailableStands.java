@@ -12,9 +12,11 @@ import libraryFunctions.databaseOrders;
  * @author PC
  */
 public class AvailableStands extends javax.swing.JFrame {
-private String ticketType;
-private String eventName;
-private String standName;
+
+    private String ticketType;
+    private String eventName;
+    private String standName;
+
     public AvailableStands() {
         initComponents();
     }
@@ -156,75 +158,97 @@ private String standName;
     }// </editor-fold>//GEN-END:initComponents
 
     private void standOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standOneActionPerformed
-        if (ticketType.equals("vip")||ticketType.equals("child")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "1";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standOneActionPerformed
 
     private void standThreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standThreeActionPerformed
-        if (ticketType!="vip"){
-            boolean valid = false;
-            standThree.setVisible(valid);
-        }
+        
         standName = "3";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standThreeActionPerformed
 
     private void standTwoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standTwoActionPerformed
-        if (ticketType.equals("vip")||ticketType.equals("child")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "2";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standTwoActionPerformed
 
     private void standFourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standFourActionPerformed
-        if (ticketType.equals("vip")||ticketType.equals("child")||ticketType.equals("disabled")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "4";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standFourActionPerformed
 
     private void standFiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standFiveActionPerformed
-        if (ticketType.equals("vip")||ticketType.equals("disabled")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "5";
+        toSeats(standName);
     }//GEN-LAST:event_standFiveActionPerformed
 
     private void standSixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standSixActionPerformed
-        if (ticketType.equals("vip")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "6";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standSixActionPerformed
 
     private void standSevenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standSevenActionPerformed
-        if (ticketType.equals("vip")||ticketType.equals("child")||ticketType.equals("disabled")){
-            boolean valid = false;
-            standOne.setVisible(valid);
-        }
+        
         standName = "7";
-        toSeats();
+        toSeats(standName);
     }//GEN-LAST:event_standSevenActionPerformed
-private void toSeats(){
+    public void toSeats(String standName) {
+        databaseOrders.setStand(standName);
         availableSeats seats = new availableSeats();
-        seats.getStandDetails(ticketType, eventName, standName);
+        
         seats.setVisible(true);
-}
+        this.dispose();
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
         databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_jButton3ActionPerformed
+    public void getTicketType() {
+        ticketType = databaseOrders.returnTicketType();
+    }
+
+    public void hideButtons() {
+        if (ticketType.equals("vip")) {
+            standOne.setVisible(true);
+            standTwo.setVisible(false);
+            standThree.setVisible(false);
+            standFour.setVisible(false);
+            standFive.setVisible(false);
+            standSix.setVisible(false);
+            standSeven.setVisible(false);
+
+        } else if (ticketType.equals("child")) {
+            standOne.setVisible(false);
+            standTwo.setVisible(false);
+            standThree.setVisible(true);
+            standFour.setVisible(true);
+            standFive.setVisible(false);
+            standSix.setVisible(false);
+            standSeven.setVisible(false);
+        } else if (ticketType.equals("disabled")) {
+            standOne.setVisible(false);
+            standTwo.setVisible(true);
+            standThree.setVisible(true);
+            standFour.setVisible(true);
+            standFive.setVisible(false);
+            standSix.setVisible(false);
+            standSeven.setVisible(false);
+        } else if (ticketType.equals("standard")) {
+            standOne.setVisible(false);
+            standTwo.setVisible(true);
+            standThree.setVisible(false);
+            standFour.setVisible(false);
+            standFive.setVisible(true);
+            standSix.setVisible(true);
+            standSeven.setVisible(true);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -256,16 +280,14 @@ private void toSeats(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-             
-        
-                new AvailableStands().setVisible(true);
+                AvailableStands standPage = new AvailableStands();
+                standPage.hideButtons();
+                standPage.repaint();
+               standPage.setVisible(true);
             }
         });
     }
-    public void getTicketDetails(String ticketSelected, String eventname){
-        ticketType = ticketSelected;
-        eventName = eventname;
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;

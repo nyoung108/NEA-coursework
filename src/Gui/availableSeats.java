@@ -11,6 +11,7 @@ import libraryFunctions.*;
 import Objects.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 /**
  *
@@ -636,36 +637,43 @@ public class availableSeats extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmButtonActionPerformed
     private boolean validSeats() {
         getTakenSeats();
-        sortSeats();
+        seatsSelected.sort(Comparator.naturalOrder());
         boolean valid = true;
-        if (seatsSelected.size() > 6) {
+        ArrayList<String> userTickets = new ArrayList<>();
+        ArrayList<String> ticketsBookedForEvent = new ArrayList<>();
+        userTickets = databaseOrders.getTicketID();
+        for (int i = 0; i < userTickets.size(); i++) {
+            ticketsBookedForEvent.add(databaseOrders.getTicketIDChosen(userTickets.get(i),eventName));
+        }
+        if (seatsSelected.size() > 6 - userTickets.size()) {
             valid = false;
+            System.out.println("You have booked too many seats for this event");
         }
         valid = isSeatTaken(takenSeats, valid);
-
+        int count = 0;
         for (int i = 0; i < seatsSelected.size(); i++) {
 
-            if (i % 8 == 1) {
+            if (seatsSelected.get(i) % 8 == 1) {
                 valid = checkRight(takenSeats, i, valid);
-            } else if (i % 8 == 0) {
+            } else if (seatsSelected.get(i) % 8 == 0) {
                 valid = checkLeft(takenSeats, i, valid);
-            } else if (i % 8 == 2) {
+            } else if (seatsSelected.get(i) % 8 == 2) {
                 valid = checkRight(takenSeats, i, valid);
                 boolean check = false;
                 for (int j = 0; j < takenSeats.size(); j++) {
-                    if (takenSeats.get(j) == i - 1) {
+                    if (takenSeats.get(j) == seatsSelected.get(i) - 1) {
                         check = true;
-                        break;
+                        
                     }
                 }
                 if (check == false) {
                     valid = false;
                 }
-            } else if (i % 8 == 7) {
+            } else if (seatsSelected.get(i) % 8 == 7) {
                 valid = checkLeft(takenSeats, i, valid);
                 boolean check = false;
                 for (int j = 0; j < takenSeats.size(); j++) {
-                    if (takenSeats.get(j) == i + 1) {
+                    if (takenSeats.get(j) == seatsSelected.get(i) + 1) {
                         check = true;
                         break;
                     }
@@ -677,13 +685,24 @@ public class availableSeats extends javax.swing.JFrame {
                 valid = checkLeft(takenSeats, i, valid);
                 valid = checkRight(takenSeats, i, valid);
             }
+            if(valid){
+                takenSeats.add(seatsSelected.get(i));
+                count = count + 1;
+            }
+        }
+        if(valid = false){
+            System.out.println("You cannot leave a single seat when booking");
+            for (int i = 0; i <= count; i++) {
+                int top = takenSeats.size();
+                takenSeats.remove(top);
+            }
+            
+            
         }
         return valid;
     }
 
-    public void sortSeats() {
-
-    }
+    
 
     public boolean isSeatTaken(ArrayList<Integer> takenSeats, boolean valid) {
         for (int i = 0; i < seatsSelected.size(); i++) {
@@ -702,10 +721,10 @@ public class availableSeats extends javax.swing.JFrame {
         boolean seatOne = false;
         boolean seatTwo = true;
         for (int j = 0; j < takenSeats.size(); j++) {
-            if (takenSeats.get(j) == i + 1) {
+            if (takenSeats.get(j) == seatsSelected.get(i) + 1) {
                 seatOne = true;
             }
-            if (takenSeats.get(j) == i + 2) {
+            if (takenSeats.get(j) == seatsSelected.get(i) + 2) {
                 seatTwo = true;
             }
         }
@@ -720,10 +739,10 @@ public class availableSeats extends javax.swing.JFrame {
         boolean seatOne = false;
         boolean seatTwo = true;
         for (int j = 0; j < takenSeats.size(); j++) {
-            if (takenSeats.get(j) == i - 1) {
+            if (takenSeats.get(j) == seatsSelected.get(i) - 1) {
                 seatOne = true;
             }
-            if (takenSeats.get(j) == i - 2) {
+            if (takenSeats.get(j) == seatsSelected.get(i) - 2) {
                 seatTwo = true;
             }
         }

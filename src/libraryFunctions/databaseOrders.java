@@ -53,6 +53,18 @@ public class databaseOrders {
     public static stack returnStack() {
         return myStack;
     }
+    public static void createStack(){
+        myStack.createStack();
+    }
+    public static void addToStack(String addElement){
+        myStack.addElement(addElement);
+    }
+    public static void removeElement(){
+        myStack.removeElement();
+    }
+    public static void goBack(){
+        myStack.goBack();
+    }
 
     public static void setTicketType(String type) {
         currentTicket.setType(type);

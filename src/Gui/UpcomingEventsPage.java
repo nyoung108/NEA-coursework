@@ -14,7 +14,7 @@ import libraryFunctions.*;
 public class UpcomingEventsPage extends javax.swing.JFrame {
     
     
-    private ArrayList<String> upcomingEvents;
+    public ArrayList<String> upcomingEvents;
     
     public UpcomingEventsPage() {
         initComponents();
@@ -190,8 +190,9 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         
+        
+        databaseOrders.goBack();
         this.dispose();
-        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -221,7 +222,7 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         upcomingEvents = upcomingEventsSort.mergedList(upcomingEvents, sortRequested);
         updateList();
     }//GEN-LAST:event_sortZAActionPerformed
-    private void toTicketPage() {
+    public void toTicketPage() {
         
         TicketDetails ticketDetails = new TicketDetails();
         
@@ -229,7 +230,7 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         this.dispose();
     }
 
-    private void updateList() {
+    public void updateList() {
         
         for (int i = 0; i < upcomingEvents.size(); i++) {
             model.addElement(upcomingEvents.get(i));            
@@ -267,6 +268,7 @@ public class UpcomingEventsPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                databaseOrders.addToStack("upcomingEvent");
                 UpcomingEventsPage update = new UpcomingEventsPage();
                 update.sortAZ();
                 update.setVisible(true);

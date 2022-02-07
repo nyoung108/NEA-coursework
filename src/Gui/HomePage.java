@@ -5,6 +5,8 @@
  */
 package Gui;
 
+import libraryFunctions.databaseOrders;
+
 /**
  *
  * @author PC
@@ -172,6 +174,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                databaseOrders.addToStack("homePage");
                 new HomePage().setVisible(true);
             }
         });

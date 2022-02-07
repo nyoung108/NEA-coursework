@@ -119,26 +119,42 @@ public class TicketDetails extends javax.swing.JFrame {
     private void standardTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standardTicketActionPerformed
         ticketSelected = "standard";
         databaseOrders.setTicketType(ticketSelected);
-        toAvailableStands();
+        AvailableStands availableStands = new AvailableStands();
+        
+        availableStands.setVisible(true);
+        
+        this.dispose();
         
     }//GEN-LAST:event_standardTicketActionPerformed
 
     private void vipTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vipTicketActionPerformed
         ticketSelected = "vip";
         databaseOrders.setTicketType(ticketSelected);
-        toAvailableStands();
+        AvailableStands availableStands = new AvailableStands();
+        
+        availableStands.setVisible(true);
+        
+        this.dispose();
     }//GEN-LAST:event_vipTicketActionPerformed
 
     private void disabledTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disabledTicketActionPerformed
         ticketSelected = "disabled";
         databaseOrders.setTicketType(ticketSelected);
-        toAvailableStands();
+        AvailableStands availableStands = new AvailableStands();
+        
+        availableStands.setVisible(true);
+        
+        this.dispose();
     }//GEN-LAST:event_disabledTicketActionPerformed
 
     private void childTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childTicketActionPerformed
         ticketSelected = "child";
         databaseOrders.setTicketType(ticketSelected);
-        toAvailableStands();
+        AvailableStands availableStands = new AvailableStands();
+        
+        availableStands.setVisible(true);
+        
+        this.dispose();
     }//GEN-LAST:event_childTicketActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

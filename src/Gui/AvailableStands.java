@@ -280,10 +280,11 @@ public class AvailableStands extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AvailableStands standPage = new AvailableStands();
-                standPage.hideButtons();
-                standPage.repaint();
-               standPage.setVisible(true);
+                new AvailableStands().setVisible(true);
+               // AvailableStands standPage = new AvailableStands();
+               // standPage.hideButtons();
+               // standPage.repaint();
+              // standPage.setVisible(true);
             }
         });
     }

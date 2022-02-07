@@ -197,7 +197,7 @@ public class SignUpPage extends javax.swing.JFrame {
         String passwordCheck = new String(passwordCheckEntered.getText());
         boolean validPassword = formatChecks.validPassword(password, passwordCheck);
         if(validPassword == false){
-            System.out.println("Password incorrect format");
+            System.out.println("Password incorrect format.");
             addUser = false;
         } 
         String firstName = firstNameEntered.getText();

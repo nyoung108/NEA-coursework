@@ -208,7 +208,7 @@ public class LoginPage extends javax.swing.JFrame {
             public void run() {
                 
                 new LoginPage().setVisible(true);
-                databaseOrders.createStack();
+               // databaseOrders.createStack();
 
             }
         });

@@ -14,7 +14,7 @@ import libraryFunctions.databaseOrders;
  */
 public class TicketDetails extends javax.swing.JFrame {
 
-    private String ticketSelected;
+    
     private String eventName;
 
     public TicketDetails() {
@@ -117,7 +117,7 @@ public class TicketDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void standardTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_standardTicketActionPerformed
-        ticketSelected = "standard";
+        String ticketSelected = "standard";
         databaseOrders.setTicketType(ticketSelected);
         AvailableStands availableStands = new AvailableStands();
         
@@ -128,7 +128,7 @@ public class TicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_standardTicketActionPerformed
 
     private void vipTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vipTicketActionPerformed
-        ticketSelected = "vip";
+       String ticketSelected = "vip";
         databaseOrders.setTicketType(ticketSelected);
         AvailableStands availableStands = new AvailableStands();
         
@@ -138,7 +138,7 @@ public class TicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_vipTicketActionPerformed
 
     private void disabledTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disabledTicketActionPerformed
-        ticketSelected = "disabled";
+       String ticketSelected = "disabled";
         databaseOrders.setTicketType(ticketSelected);
         AvailableStands availableStands = new AvailableStands();
         
@@ -148,7 +148,7 @@ public class TicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_disabledTicketActionPerformed
 
     private void childTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_childTicketActionPerformed
-        ticketSelected = "child";
+       String ticketSelected = "child";
         databaseOrders.setTicketType(ticketSelected);
         AvailableStands availableStands = new AvailableStands();
         
@@ -158,8 +158,9 @@ public class TicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_childTicketActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        databaseOrders.goBack();
         this.dispose();
-        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getEventName(String eventName) {
         

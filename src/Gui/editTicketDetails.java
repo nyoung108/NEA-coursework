@@ -159,8 +159,9 @@ public class editTicketDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        
+        databaseOrders.goBack();
         this.dispose();
-        databaseOrders.returnStack().goBack();
     }//GEN-LAST:event_backActionPerformed
 
     /**

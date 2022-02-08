@@ -5,6 +5,13 @@
  */
 package Gui;
 
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import libraryFunctions.*;
 
 public class SignUpPage extends javax.swing.JFrame {
@@ -103,10 +110,14 @@ public class SignUpPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(30, 30, 30))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(emailEntered)
                             .addComponent(passwordEntered)
@@ -149,19 +160,17 @@ public class SignUpPage extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(exitButton))
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(emailEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwordEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passwordCheckEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordCheckEntered, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -186,34 +195,36 @@ public class SignUpPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-         boolean addUser = true;
+        boolean addUser = true;
         String email = new String(emailEntered.getText());
         boolean validEmail = formatChecks.validEmail(email);
-            if(validEmail == false){
-                System.out.println("Your email is not in the correct format");
-                addUser = false;
-            }
+        if (validEmail == false) {
+            System.out.println("Your email is not in the correct format");
+            addUser = false;
+        }
         String password = new String(passwordEntered.getText());
         String passwordCheck = new String(passwordCheckEntered.getText());
         boolean validPassword = formatChecks.validPassword(password, passwordCheck);
-        if(validPassword == false){
+        if (validPassword == false) {
             System.out.println("Password incorrect format.");
             addUser = false;
-        } 
+        }
         String firstName = firstNameEntered.getText();
         String lastName = lastNameEntered.getText();
-        String dateOfBirth = dateOfBirthEntered.getText();
-        if(addUser==true){
-            String userID = generateId.uniqueId();
-            password = hash.hashedPassword(password);
-            Objects.userDetailsObject user = new Objects.userDetailsObject(userID, email, password, firstName, lastName, dateOfBirth);
-            databaseOrders.addUser(user);
-            System.out.println("Welcome");
-            HomePage home = new HomePage();
-            home.setVisible(true);
-            this.dispose();
-            
-        }
+        String dateStr = dateOfBirthEntered.getText();
+        
+            if (addUser == true) {
+                String userID = generateId.uniqueId();
+                password = hash.hashedPassword(password);
+                Objects.userDetailsObject user = new Objects.userDetailsObject(userID, email, password, firstName, lastName, dateStr);
+                databaseOrders.addUser(user);
+                System.out.println("Welcome");
+                HomePage home = new HomePage();
+                home.setVisible(true);
+                this.dispose();
+
+            }
+        
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void lastNameEnteredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameEnteredActionPerformed
@@ -225,9 +236,9 @@ public class SignUpPage extends javax.swing.JFrame {
     }//GEN-LAST:event_dateOfBirthEnteredActionPerformed
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
-            LoginPage login = new LoginPage();
-            login.setVisible(true);
-            this.dispose();
+        LoginPage login = new LoginPage();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logInButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed

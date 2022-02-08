@@ -95,6 +95,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="View Your Purchases"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewPurchasesButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="editDetailsButton">
       <Properties>
@@ -108,6 +111,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit a Ticket"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editTicketButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
@@ -121,6 +127,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete a ticket"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="exit">
       <Properties>

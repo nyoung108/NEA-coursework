@@ -47,6 +47,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         viewPurchasesButton.setText("View Your Purchases");
+        viewPurchasesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPurchasesButtonActionPerformed(evt);
+            }
+        });
 
         editDetailsButton.setText("Edit Your Details");
         editDetailsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +61,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         editTicketButton.setText("Edit a Ticket");
+        editTicketButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editTicketButtonActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Log out");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +75,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete a ticket");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         exit.setText("x");
         exit.addActionListener(new java.awt.event.ActionListener() {
@@ -133,16 +148,39 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_upcomingEventButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        LoginPage login = new LoginPage();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDetailsButtonActionPerformed
-        // TODO add your handling code here:
+        editUserDetails edit = new editUserDetails();
+        edit.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_editDetailsButtonActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
+
+    private void viewPurchasesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPurchasesButtonActionPerformed
+        NewJFrame view = new NewJFrame();
+       
+            view.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_viewPurchasesButtonActionPerformed
+
+    private void editTicketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTicketButtonActionPerformed
+        editTicketDetails edit = new editTicketDetails();
+        edit.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_editTicketButtonActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        editTicketDetails edit = new editTicketDetails();
+        edit.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,7 +212,7 @@ public class HomePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                databaseOrders.addToStack("homePage");
+                //databaseOrders.addToStack("homePage");
                 new HomePage().setVisible(true);
             }
         });
